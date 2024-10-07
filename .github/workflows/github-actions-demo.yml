@@ -42,5 +42,5 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          source: 'index.js'
+          source: './*'
           target: ${{ secrets.TARGET }}
