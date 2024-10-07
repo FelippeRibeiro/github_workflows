@@ -58,7 +58,7 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            source ~/.bashrc.profile
+            source ~/.bashrc
             cd ${{ secrets.TARGET }}
             git pull
             ls -la
