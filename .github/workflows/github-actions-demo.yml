@@ -29,3 +29,18 @@ jobs:
       - name: Listing files in the hosted
         run: ls -la
       - run: echo "The listing step has been completed."
+  Testing-copy-files-to-deploy:
+    runs-on: ubuntu-latest
+    needs: Testing
+    steps:
+      - run: echo "⏳ Job to deploy files CD"
+      - uses: actions/checkout@v4
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          source: 'index.js'
+          target: /dev/github_workflows/
