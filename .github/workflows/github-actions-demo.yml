@@ -59,6 +59,8 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd ${{ secrets.TARGET }}
+            echo $PATH
+            witch npm
             git pull
             ls -la
             npm install
