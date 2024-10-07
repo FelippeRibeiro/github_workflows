@@ -59,12 +59,5 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd ${{ secrets.TARGET }}
-            echo $PATH
-            witch npm
-            git pull
             ls -la
-            npm install
-            npm run build
-            npm run start
-            ls -la
-            echo "done"
+            sh build.sh
