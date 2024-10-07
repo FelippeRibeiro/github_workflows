@@ -58,9 +58,8 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: |
+            [ -s "$HOME/.nvm/nvm.sh" ] && \. "$HOME/.nvm/nvm.sh"
             cd ${{ secrets.TARGET }}
             git pull
             ls -la
-            $(which npm) install
-            $(which npm) run build
-            $(which npm) run start
+            sh build.sh
