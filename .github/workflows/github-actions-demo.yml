@@ -59,5 +59,6 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd ${{ secrets.TARGET }}
+            git pull
             ls -la
             sh build.sh
