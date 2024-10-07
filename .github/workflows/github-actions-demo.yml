@@ -29,19 +29,40 @@ jobs:
       - name: Listing files in the hosted
         run: ls -la
       - run: echo "The listing step has been completed."
-  Testing-copy-files-to-deploy:
+  # Testing-copy-files-to-deploy:
+  #   runs-on: ubuntu-latest
+  #   needs: Testing
+  #   steps:
+  #     - run: echo "⏳ Job to deploy files CD"
+  #     - uses: actions/checkout@v4
+  #     - name: copy file via ssh password
+  #       uses: appleboy/scp-action@v0.1.7
+  #       with:
+  #         host: ${{ secrets.HOST }}
+  #         username: ${{ secrets.USERNAME }}
+  #         # password: ${{ secrets.PASSWORD }}
+  #         key: ${{ secrets.KEY }}
+  #         port: ${{ secrets.PORT }}
+  #         source: 'src/*,package*.json,tsconfig.json,.gitignore,.github/'
+  #         target: ${{ secrets.TARGET }}
+
+  Testing-building-to-deploy:
     runs-on: ubuntu-latest
-    needs: Testing
+    # needs: Testing-copy-files-to-deploy
     steps:
-      - run: echo "⏳ Job to deploy files CD"
-      - uses: actions/checkout@v4
-      - name: copy file via ssh password
-        uses: appleboy/scp-action@v0.1.7
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v1.1.0
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          # password: ${{ secrets.PASSWORD }}
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
-          source: './*'
-          target: ${{ secrets.TARGET }}
+          script: |
+            cd ${{ secrets.TARGET }}
+            git pull
+            ls -la
+            npm install
+            npm run build
+            npm run start
+            ls -la
+            echo "done"
