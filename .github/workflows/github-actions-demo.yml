@@ -16,4 +16,16 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
-      - run: curl https://webhook.site/683a1e12-94a7-409a-8abd-c6410483074d
+  Testing:
+    runs-on: ubuntu-latest
+    # This will run only when the named job is successful
+    needs: Explore-GitHub-Actions
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+
+      #This is mandatory?
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Listing files in the hosted
+        run: ls -la
+      - run: echo "The listing step has been completed."
