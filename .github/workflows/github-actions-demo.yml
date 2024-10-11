@@ -64,6 +64,7 @@ jobs:
           ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p ${{ secrets.PORT }} "cd ${{ secrets.WORK_DIR }} && git pull && source ~/.nvm/nvm.sh && npm install && npm run build && pm2 restart actions"
 
       - name: Cleanup
+        if: ${{ always() }}
         run: rm -rf ~/.ssh
 
       # - name: executing remote ssh commands using ssh key
