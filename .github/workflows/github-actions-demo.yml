@@ -50,16 +50,33 @@ jobs:
     runs-on: ubuntu-latest
     # needs: Testing-copy-files-to-deploy
     steps:
-      - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@v1.1.0
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          port: ${{ secrets.PORT }}
-          script: |
-            [ -s "$HOME/.nvm/nvm.sh" ] && \. "$HOME/.nvm/nvm.sh"
-            cd ${{ secrets.TARGET }}
-            git pull
-            ls -la
-            sh build.sh
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Acess host
+        run: |
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "{{ secrets.KEY }}" > ~/.ssh/id_rsa
+          ssh-keyscan -H {{ secrets.HOST }} > ~/.ssh/known_hosts
+      - name: Connect to host and pull
+        run: |
+          ssh -i ~/.ssh/id_rsa {{ secrets.USERNAME }}@{{ secrets.HOST }} -p {{ secrets.PORT }}
+          cd {{ secrets.TARGET }}
+          git pull
+          ls -la
+          pm2 restart actions
+          # sh build.sh
+
+      # - name: executing remote ssh commands using ssh key
+      #   uses: appleboy/ssh-action@v1.1.0
+      #   with:
+      #     host: ${{ secrets.HOST }}
+      #     username: ${{ secrets.USERNAME }}
+      #     key: ${{ secrets.KEY }}
+      #     port: ${{ secrets.PORT }}
+      #     script: |
+      #       [ -s "$HOME/.nvm/nvm.sh" ] && \. "$HOME/.nvm/nvm.sh"
+      #       cd ${{ secrets.TARGET }}
+      #       git pull
+      #       ls -la
+      #       sh build.sh
