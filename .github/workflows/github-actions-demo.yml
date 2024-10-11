@@ -62,7 +62,7 @@ jobs:
       - name: Connect to host and pull
         run: |
           ls -la ~/.ssh
-          ssh -i ~/.ssh/id_rsa ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p ${{ secrets.PORT }}
+          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p ${{ secrets.PORT }}
           cd ${{ secrets.TARGET }}
           git pull
           ls -la
