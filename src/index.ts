@@ -11,5 +11,5 @@ app.listen(3000, () => {
 });
 
 setInterval(() => {
-  console.log('GitHUB Actions app is running');
+  console.log('GitHUB Actions app is running after deploy!');
 }, 5000);
