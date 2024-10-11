@@ -60,6 +60,7 @@ jobs:
           echo "Host ${{ secrets.HOST }}" >> ~/.ssh/config
           echo "  User ${{ secrets.USERNAME }}" >> ~/.ssh/config
           echo "  IdentityFile ~/.ssh/id_rsa" >> ~/.ssh/config
+          chmod 600 ~/.ssh/config
 
 
           install -m 600 -D /dev/null ~/.ssh/id_rsa
