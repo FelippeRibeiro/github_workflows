@@ -55,26 +55,17 @@ jobs:
 
       - name: Acess host
         run: |
-
-          # mkdir -p ~/.ssh
-          # echo "Host ${{ secrets.HOST }}" >> ~/.ssh/config
-          # echo "  User ${{ secrets.USERNAME }}" >> ~/.ssh/config
-          # echo "  IdentityFile ~/.ssh/id_rsa" >> ~/.ssh/config
-          # chmod 600 ~/.ssh/config
-
-
           install -m 600 -D /dev/null ~/.ssh/id_rsa
           echo "${{ secrets.KEY }}" > ~/.ssh/id_rsa
           ssh-keyscan -p ${{ secrets.PORT }} -H ${{ secrets.HOST }} > ~/.ssh/known_hosts
+
       - name: Connect to host and pull
         run: |
           ls -la ~/.ssh
-          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p ${{ secrets.PORT }} "ls -la"
-          cd ${{ secrets.TARGET }}
-          git pull
-          ls -la
-          pm2 restart actions
-          # sh build.sh
+          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p ${{ secrets.PORT }} "cd ${{ secrets.TARGET }} && git pull $$ npm install && npm run build && pm2 restart actions"
+
+      - name: Cleanup
+        run: rm -rf ~/.ssh
 
       # - name: executing remote ssh commands using ssh key
       #   uses: appleboy/ssh-action@v1.1.0
