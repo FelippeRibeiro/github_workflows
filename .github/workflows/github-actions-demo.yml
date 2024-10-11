@@ -61,8 +61,7 @@ jobs:
 
       - name: Connect to host and pull
         run: |
-          ls -la ~/.ssh
-          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p ${{ secrets.PORT }} "cd ${{ secrets.TARGET }} && git pull $$ npm install && npm run build && pm2 restart actions"
+          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} -p ${{ secrets.PORT }} "cd ${{ secrets.TARGET }} && ls -la && git pull && npm install && npm run build && pm2 restart actions"
 
       - name: Cleanup
         run: rm -rf ~/.ssh
